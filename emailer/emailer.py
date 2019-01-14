@@ -8,7 +8,7 @@ from email.mime.text import MIMEText
 from email.utils import formatdate
 
 
-class Session(smtplib.SMTP):
+class Session():
 
     def __init__(self, sender=os.environ.get('EMAIL_ADDRESS'), password=os.environ.get('EMAIL_PASSWORD')):
 
@@ -41,7 +41,11 @@ class Session(smtplib.SMTP):
 
     def start(self):
 
-        session = smtplib.SMTP(**self.session_info)
+        if self.session_info['port'] == 465:
+            session = smtplib.SMTP_SSL(**self.session_info)
+        else:
+            session = smtplib.SMTP(**self.session_info)
+
         session.ehlo()
         session.starttls()
         session.login(self.sender, self.password)
