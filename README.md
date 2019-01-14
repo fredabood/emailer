@@ -11,18 +11,14 @@ from emailer import Email, Session
 # otherwise the Email class will init a session and close it after sending
 session = Session()
 
-recipient = 'username@email.com'
-subject = 'subject'
-body = 'body text'
-files = ['/path/to/file/one.ext', '/path/to/file/two.ext']
-
-email = Email(
-    recipient=recipient,
-    body=body,
-    subject=subject,
-    files=files,
-    session=session
+kwargs = dict(
+    recipient='username@email.com',
+    subject='subject',
+    body='body text',
+    files=['/path/to/file/one.ext', '/path/to/file/two.ext'],
 )
+
+email = Email(**kwargs)
 
 email.send()
 ```
