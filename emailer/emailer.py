@@ -41,11 +41,7 @@ class Session():
 
     def start(self):
 
-        if self.session_info['port'] == 465:
-            session = smtplib.SMTP_SSL(**self.session_info)
-        else:
-            session = smtplib.SMTP(**self.session_info)
-
+        session = smtplib.SMTP(**self.session_info)
         session.ehlo()
         session.starttls()
         session.login(self.sender, self.password)
