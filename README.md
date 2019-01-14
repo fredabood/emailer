@@ -10,14 +10,26 @@ from emailer import Email, Session
 
 session = Session()
 
+user = dict(
+    username='your@email.com',
+    password='yourpass'
+)
+
+email = Email(**user)
+
 kwargs = dict(
-    recipient='username@email.com',
+    recipient='recipient@email.com',
     subject='subject',
     body='body text',
     files=['/path/to/file/one.ext', '/path/to/file/two.ext'],
 )
 
-email = Email(**kwargs)
+email.send(**kwargs)
 
-email.send()
+kwargs = dict(
+    folder='INBOX',
+    queries=['SINCE 05-Jul-2014'],
+)
+
+messages = email.read(**kwargs)
 ```
