@@ -22,7 +22,6 @@ class Session():
 
         filler = ''
         tld = 'com'
-        port = 587
 
         if provider in ['yahoo', 'att']:
             filler = '.mail'
@@ -34,14 +33,11 @@ class Session():
 
         host = f'smtp{filler}.{provider}.{tld}'
 
-        if provider in ['att', 'verizon']:
-            port = 465
-
-        return dict(host=host, port=port)
+        return dict(host=host, port=465)
 
     def start(self):
 
-        session = smtplib.SMTP(**self.session_info)
+        session = smtplib.SMTP_SSL(**self.session_info)
         session.ehlo()
         session.starttls()
         session.login(self.sender, self.password)
@@ -60,10 +56,8 @@ class Email():
 
         if session:
             self.session = session
-            self.close_session = False
         else:
             self.session = Session()
-            self.close_session = True
 
         self.message = self.build_msg()
 
@@ -72,14 +66,12 @@ class Email():
         try:
             server = self.session.start()
             server.sendmail(self.session.sender, self.recipient, self.message.as_string())
+            server.close()
 
             print("Successfully sent email")
 
         except Exception as e:
             print("Failed to send email because of: " + str(e))
-
-        if self.close_session:
-            server.close()
 
     def build_msg(self):
         msg = MIMEMultipart()
