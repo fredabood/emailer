@@ -6,9 +6,7 @@ Cloned from [sohums' Emailify](https://github.com/sohums/Emailify) with the Spot
 
 ### Example
 ```python
-from emailer import Email, Session
-
-session = Session()
+from emailer import Email
 
 user = dict(
     username='your@email.com',
